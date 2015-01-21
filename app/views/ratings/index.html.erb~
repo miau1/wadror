@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<h2>List of ratings</h2>
+
+<%= link_to 'New Rating', 'ratings/new' %>
+
+<p> Number of ratings: <%= Rating.count %> </p>
+
+
+<ul>
+  <% Rating.all.each do |rating| %>
+    <li> <%= rating %> <%= link_to 'delete', rating, method: :delete %> </li>
+  <% end %>
+</ul>
+
+
+
