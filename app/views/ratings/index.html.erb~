@@ -2,16 +2,16 @@
 
 <h2>List of ratings</h2>
 
-<%= link_to 'New Rating', 'ratings/new' %>
-
 <p> Number of ratings: <%= Rating.count %> </p>
 
-
 <ul>
-  <% Rating.all.each do |rating| %>
-    <li> <%= rating %> <%= link_to 'delete', rating, method: :delete %> </li>
+  <% @ratings.each do |rating| %>
+    <li> <%= rating %> <%= link_to 'delete', rating, method: :delete,
+    data: { confirm: 'Are you sure?' } %> </li>
   <% end %>
 </ul>
+
+<%= link_to 'New Rating', new_rating_path %>
 
 
 

@@ -6,13 +6,23 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
+
 <body>
   <div class="navibar">
     <%= link_to 'breweries', breweries_path %>
     <%= link_to 'beers', beers_path %>
+    <%= link_to 'ratings', ratings_path %>
+    <%= link_to 'users', users_path %>
+    |
+    <% if session[:user_id].nil? %>
+    <%= link_to 'signin', signin_path %>
+    <%= link_to 'signup', signup_path %>
+    <% else %>
+    <%= link_to current_user.username, user_path(current_user.id) %>
+    <% end %>
   </div> 
 
-<%= yield %>
+  <%= yield %>
 
 </body>
 </html>

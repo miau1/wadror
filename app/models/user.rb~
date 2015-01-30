@@ -1,0 +1,12 @@
+class User < ActiveRecord::Base
+  include Average
+
+  validates :username, uniqueness: true,
+ 		       length: { minimum: 3 }
+
+  has_many :ratings
+
+  def count_ratings
+    return ratings.count
+  end
+end
