@@ -1,11 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<h1>
-  <strong><%= @beer_club.name %> <%= @beer_club.city %></strong>
-</h1>
+<h2>
+  <%= "#{@beer_club.name} #{@beer_club.city}"%> 
+</h2>
 
 <p>
-  Founded <%= @beer_club.founded %>
+  Founded in <%= @beer_club.founded %>
 </p>
 
 <p>
@@ -13,12 +13,12 @@
 </p>
 
 <ul>
-  <% @beer_club.memberships.each do |m| %>
+  <% @beer_club.members.each do |member| %>
    <li>
-     <% u = User.find_by id:m.user_id %>
-     <%= link_to u.username, user_path(u.id) %>
+     <%= link_to member.username, member %>
    </li>
     <% end %>
 </ul>
 
 <%= link_to 'Edit', edit_beer_club_path(@beer_club) %>
+<%= link_to 'Back', beer_clubs_path %>

@@ -32,6 +32,18 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'simplecov', require: false
+
+group :test do
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+end
+
 group :development, :test do
   gem "better_errors"
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
