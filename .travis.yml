@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+- 2.0.0
+script:
+- bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec -fd spec/
+deploy:
+  provider: heroku
+  api_key:
+    secure: EuM8PQN2KGlu39xXMkMFvWxCwq9PT5rbIOtaaGdLvVajLPkUbvB8hnADusV6cpQwBzfRijhxuKB+Pj+cTtPIU6fjrhLs+JrpIHhlePDgQ2jKyDjbPopH36mUAa2Gh3o5zKk9OdHPAI5q2cBGv8NKX42u1oqBoAfBhkSIRwr5/uA=
+  app: murmuring-shelf-4141
+  on:
+    repo: miau1/wadror
