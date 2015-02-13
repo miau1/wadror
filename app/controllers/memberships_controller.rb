@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  before_action :set_membership, only: [:show, :edit, :update]
 
   # GET /memberships
   # GET /memberships.json
@@ -30,7 +30,7 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if @membership.save
-        format.html { redirect_to @membership, notice: "You just joined #{@membership.beer_club.name}" }
+        format.html { redirect_to beer_club_path(@membership.beer_club_id), notice: "#{current_user.username}, welcome to the club!" }
         format.json { render :show, status: :created, location: @membership }
       else
 	@beer_clubs = BeerClub.all.reject{ |b| b.members.include? current_user }
@@ -57,9 +57,10 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
+    @membership = Membership.find_by user_id: current_user.id, beer_club_id: session[:bcid]
     @membership.destroy
     respond_to do |format|
-      format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
+      format.html { redirect_to user_path(current_user.id), notice: "Membership in #{session[:bcname]} has ended." }
       format.json { head :no_content }
     end
   end

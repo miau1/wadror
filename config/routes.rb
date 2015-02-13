@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
+  resources :styles
+
   resources :memberships
+
+  delete 'memberships', to: 'memberships#destroy'
 
   resources :beer_clubs
 
@@ -26,6 +30,13 @@ Rails.application.routes.draw do
   #post 'ratings', to: 'ratings#create'
 
   resources :ratings, only: [:index, :new, :create, :destroy]
+
+  resources :places, only:[:index, :show]
+  # mikä generoi samat polut kuin seuraavat kaksi
+  # get 'places', to:'places#index'
+  # get 'places/:id', to:'places#show'
+
+  post 'places', to:'places#search'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

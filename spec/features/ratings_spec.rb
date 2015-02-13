@@ -44,7 +44,7 @@ describe "Rating" do
     make_ratings_and_visit_user_page
 
     expect{
-      page.all('a')[9].click
+      page.all('a')[11].click
     }.to change{Rating.count}.by(-1)
   end
 

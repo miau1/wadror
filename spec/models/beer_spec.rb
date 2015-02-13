@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 describe Beer do
+  let(:style) { FactoryGirl.create :style }
   it "is not saved without a name" do
-    beer = Beer.create style:"Lager"
+
+    beer = Beer.create style:style
 
     expect(beer).not_to be_valid
     expect(Beer.count).to eq(0)
@@ -16,7 +18,8 @@ describe Beer do
   end
 
   describe "with a name and a style" do
-    let(:beer){ Beer.create name:"kalja", style:"Lager" }
+    let(:style) { FactoryGirl.create :style }
+    let(:beer){ Beer.create name:"kalja", style:style }
 
     it "is saved" do
       expect(beer).to be_valid
