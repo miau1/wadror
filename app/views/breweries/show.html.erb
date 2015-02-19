@@ -2,12 +2,20 @@
 
 <h2>
   <%= @brewery.name %>
+  <%= link_to "change activity", toggle_activity_brewery_path(@brewery.id), method: :post, class: "btn btn-primary" %>
+
+<% if not @brewery.active  %>
+      <span class="label label-info">retired</span>
+  <% end %>
 </h2>
 
-<i>
-  Established in 
-  <%= @brewery.year %>
-</i>
+
+<p>
+    <i>
+      Established in
+      <%= @brewery.year %>
+    </i>
+</p>
 
 <p>
   Number of beers 
@@ -20,14 +28,17 @@
  <% end %>
 </p>
 
+<p>
 <% if @brewery.ratings.empty? %>
  Beers of the brewery has not yet been rated!
 <% else %>
  Has <%= pluralize(@brewery.ratings.count, 'rating') %>, average <%= @brewery.average_rating %>
 <% end %>
+</p>
 
 <p>
-  <%= link_to 'Edit', edit_brewery_path(@brewery) if current_user %>
-<br>
-  <%= link_to 'Destroy', @brewery, method: :delete, data: { confirm: 'Are you sure?' } if current_user %>
+  <%= link_to 'Edit', edit_brewery_path(@brewery), class:'btn btn-primary' if current_user %>
+</p>
+<p>
+  <%= link_to 'Destroy', @brewery, class:'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } if current_user.admin==true %>
 </p>

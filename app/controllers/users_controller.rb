@@ -65,6 +65,14 @@ class UsersController < ApplicationController
     end
   end
 
+
+  def toggle_freezing
+    user = User.find(params[:id])
+    user.update_attribute :locked, (not user.locked)
+
+    redirect_to :back
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

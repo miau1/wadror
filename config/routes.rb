@@ -23,6 +23,14 @@ Rails.application.routes.draw do
 
   resource :session, only: [:new, :create, :delete]
 
+  resources :breweries do
+    post 'toggle_activity', on: :member
+  end
+
+  resources :users do
+    post 'toggle_freezing', on: :member
+  end
+
   #get 'ratings', to: 'ratings#index'
 
   #get 'ratings/new', to:'ratings#new'

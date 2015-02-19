@@ -5,7 +5,9 @@
 </h1>
 
 <p>
+  <quote>
   <%= @style.text %>
+  </quote>
 </p>
 
 <% if @style.beers.any? %>
@@ -19,7 +21,4 @@
   </p>
 <% end %>
 
-<% if current_user %>
-  <%= link_to 'Edit', edit_style_path(@style) %> |
-  <%= link_to 'Destroy', @style, method: :delete, data: { confirm: 'Are you sure?' } %>
-<% end %>
+<%= edit_and_destroy_buttons(@style) %>

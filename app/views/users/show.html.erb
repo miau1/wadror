@@ -2,7 +2,16 @@
 
 <h1>
   <%= @user.username %>
+  <% if current_user and current_user.admin %>
+      <% if @user.locked  %>
+          <span class="label label-info">account frozen</span>
+          <%= link_to "reactivate account", toggle_freezing_user_path(@user.id), method: :post, class: "btn btn-danger" %>
+      <% else %>
+          <%= link_to "freeze account", toggle_freezing_user_path(@user.id), method: :post, class: "btn btn-danger" %>
+      <% end %>
+  <% end %>
 </h1>
+
 
 <% if @user.ratings.empty? %>
  <p>Has not yet rated any beers</p>
@@ -10,6 +19,10 @@
  <p>
  Has made <%= pluralize(@user.ratings.count, 'rating') %>, average <%= @user.average_rating %>
  </p>
+
+<p>
+  Favorite beer: <%= @user.favorite_beer.name %>
+</p>
 
  <p>
  Favorite style: <%= @user.favorite_style.name %>
@@ -45,7 +58,8 @@
 </ul>
 
 <% if @user == current_user %>
-<%= link_to 'Change password', edit_user_path(@user) %>
-<br>
-<%= link_to 'Delete account', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <p>
+    <%= link_to 'Change password', edit_user_path(@user), class:'btn btn-primary' %>
+    </p>
+    <%= link_to 'Delete account', @user, class:'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>

@@ -15,6 +15,11 @@ class User < ActiveRecord::Base
 
   validates :password, format: { with: /\d.*[A-Z]|[A-Z].*\d/, message: "has to contain one number and one upper case letter" }
 
+  def self.top(n)
+    sorted_by_rating_in_desc_order = User.all.sort_by{ |u| -(u.ratings.count||0) }
+    sorted_by_rating_in_desc_order.take(n)
+  end
+
   def count_ratings
     return ratings.count
   end
