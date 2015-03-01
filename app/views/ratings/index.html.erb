@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<% cache 'ratinglist', expires_in:10.minutes do %>
+
 <h2>Ratings</h2>
 <br>
 
@@ -71,7 +73,7 @@
   </tbody>
 </table>
 
-
+<% end %>
 
 
 

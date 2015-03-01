@@ -15,10 +15,34 @@
 
     <ul>
       <% @beer_club.members.each do |member| %>
-       <li>
-         <%= link_to member.username, member %>
-       </li>
-        <% end %>
+          <% @mship = Membership.find_by beer_club_id:@beer_club.id, user_id:member.id %>
+          <% if @mship.confirmed == true %>
+               <li>
+                 <%= link_to member.username, member %>
+               </li>
+            <% end %>
+      <% end %>
+    </ul>
+<% end %>
+
+
+<% if @beer_club.members.count > 0 and @beer_club.onkojasen(current_user) == true %>
+
+
+    <p>
+      <strong> Outstanding applications </strong>
+    </p>
+
+    <ul>
+      <% @beer_club.members.each do |member| %>
+          <% @mship = Membership.find_by beer_club_id:@beer_club.id, user_id:member.id %>
+          <% if @mship.confirmed == nil %>
+              <li>
+                <%= link_to member.username, member %>
+                <%= link_to "confirm", confirm_membership_path(@mship.id), method: :post, class: "btn btn-primary" %>
+              </li>
+          <% end %>
+      <% end %>
     </ul>
 <% end %>
 

@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+
+  get 'auth/:provider/callback', to: 'sessions#create_oauth'
+
+  get 'ngbeerlist', to:'beers#nglist'
+
+  get 'beerlist', to:'beers#list'
+
+  get 'brewerylist', to: 'breweries#list'
+
   resources :styles
 
   resources :memberships
@@ -29,6 +38,10 @@ Rails.application.routes.draw do
 
   resources :users do
     post 'toggle_freezing', on: :member
+  end
+
+  resources :memberships do
+    post 'confirm', on: :member
   end
 
   #get 'ratings', to: 'ratings#index'

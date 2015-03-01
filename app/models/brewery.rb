@@ -25,4 +25,8 @@ class Brewery < ActiveRecord::Base
     puts "changed year to #{year}"
   end
 
+  def beercount
+    beers.count
+  end
+
 end

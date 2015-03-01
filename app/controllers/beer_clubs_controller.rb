@@ -18,6 +18,12 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/new
   def new
     @beer_club = BeerClub.new
+
+    @membership = Membership.new
+    @membership.beer_club = @beer_club
+    @membership.user = current_user
+    @mebership.confirmed = true
+    @membership.save
   end
 
   # GET /beer_clubs/1/edit

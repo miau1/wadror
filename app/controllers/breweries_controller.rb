@@ -1,12 +1,48 @@
 class BreweriesController < ApplicationController
-  before_action :ensure_that_signed_in, except: [:index, :show]
+  before_action :ensure_that_signed_in, except: [:index, :show, :list]
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
+  before_action :skip_if_cached, only:[:index]
 
   # GET /breweries
   # GET /breweries.json
   def index
+    @breweries = Brewery.all
     @active_breweries = Brewery.active
     @retired_breweries = Brewery.retired
+
+    case @order
+      when 'name' then @retired_breweries.sort_by{ |b| b.name }
+      when 'year' then @retired_breweries.sort_by{ |b| b.year }
+    end
+
+=begin
+    order = params[:order] || 'name'
+
+    if session[:lastorder] == 'sama'
+      @retired_breweries = case order
+                            when 'name' then @retired_breweries.sort_by{ |b| b.name }.reverse
+                             when 'year' then @retired_breweries.sort_by{ |b| b.year }.reverse
+                           end
+      @active_breweries = case order
+                            when 'name' then @active_breweries.sort_by{ |b| b.name }.reverse
+                            when 'year' then @active_breweries.sort_by{ |b| b.year }.reverse
+                          end
+      session[:lastorder] = nil
+    else
+      @retired_breweries = case order
+                             when 'name' then @retired_breweries.sort_by{ |b| b.name }
+                             when 'year' then @retired_breweries.sort_by{ |b| b.year }
+                           end
+      @active_breweries = case order
+                            when 'name' then @active_breweries.sort_by{ |b| b.name }
+                            when 'year' then @active_breweries.sort_by{ |b| b.year }
+                          end
+      session[:lastorder] = 'sama'
+    end
+=end
+  end
+
+  def list
   end
 
   # GET /breweries/1
@@ -26,6 +62,7 @@ class BreweriesController < ApplicationController
   # POST /breweries
   # POST /breweries.json
   def create
+    ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
     @brewery = Brewery.new(brewery_params)
 
     respond_to do |format|
@@ -42,6 +79,7 @@ class BreweriesController < ApplicationController
   # PATCH/PUT /breweries/1
   # PATCH/PUT /breweries/1.json
   def update
+    ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
     respond_to do |format|
       if @brewery.update(brewery_params)
         format.html { redirect_to @brewery, notice: 'Brewery was successfully updated.' }
@@ -57,6 +95,7 @@ class BreweriesController < ApplicationController
   # DELETE /breweries/1.json
   def destroy
     :ensure_that_admin
+    ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
     @brewery.destroy
     respond_to do |format|
       format.html { redirect_to breweries_url, notice: 'Brewery was successfully destroyed.' }
@@ -84,6 +123,11 @@ class BreweriesController < ApplicationController
       params.require(:brewery).permit(:name, :year, :active)
     end
 
-  private
+    def skip_if_cached
+      @order = params[:order] || 'name'
+      return render :index if fragment_exist?( "brewerylist-#{@order}"  )
+    end
+
+
 
 end

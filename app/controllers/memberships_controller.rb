@@ -65,6 +65,10 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def confirm
+    @membership.confirm = true
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_membership

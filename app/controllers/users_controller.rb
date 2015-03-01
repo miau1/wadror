@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.includes(:ratings, :beers).all
   end
 
   # GET /users/1
@@ -64,7 +64,6 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
-
 
   def toggle_freezing
     user = User.find(params[:id])

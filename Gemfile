@@ -5,6 +5,12 @@ group :development do
   gem 'rails_layout'
 end
 
+gem 'omniauth-github'
+
+gem 'rack-mini-profiler'
+
+gem 'jquery-turbolinks'
+
 gem 'httparty'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -44,6 +50,8 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'webmock'
+  gem 'selenium-webdriver', '2.44.0'
+  gem 'database_cleaner'
 end
 
 group :development, :test do
